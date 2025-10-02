@@ -12,9 +12,8 @@ public class Driver {
     public static void main(String[] args) {
         mainMenu();
 
-        System.out.println("\nThe program has terminated.");
-
         scanner.close();
+        System.out.println("\nThe program has terminated.");
     }
 
     private static void mainMenu() {
@@ -27,16 +26,13 @@ public class Driver {
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
                 if (routeMaker.cityExists(startCity) && routeMaker.cityExists(endCity)) {
-                    System.out.print(routeMaker.buildRoute(startCity, endCity));
+                    System.out.println("\n" + routeMaker.buildRoute(startCity, endCity));
                     routeOptionsMenu(startCity, endCity);
                 } else {
-                    System.out.println("One or both of the city names were not inputted correctly");
+                    System.out.println("\nOne or both of the city names were not inputted correctly");
                 }
-            } catch (RuntimeException e) {
-                scanner.nextLine();
-                System.out.println("This isn't an allowed input. Try again.");
             } catch (NoRouteException e) {
-                System.out.print("There are no connections between these 2 cities (with maximum 2 stops)");
+                System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }
             try {
                 System.out.print("Enter 1 to exit the program (or <enter> to continue): ");
@@ -52,7 +48,7 @@ public class Driver {
     private static void routeOptionsMenu(String startCity, String endCity) {
         while (true) {
             try {
-                System.out.print("\n1. Exit this menu.\n" +
+                System.out.print("1. Exit this menu.\n" +
                         "2. Sort by trip duration.\n" +
                         "3. Sort by price.\n" +
                         "Enter an integer to choose from the above options: ");
@@ -60,16 +56,25 @@ public class Driver {
                 if (choice == 1) {
                     return;
                 } else if (choice == 2) {
-
+                    sortByDuration();
                 } else if (choice == 3) {
-
+                    sortByPrice();
                 } else {
-                    System.out.println("This wasn't one of the integer choices. Try again.");
+                    System.out.println("\nThis wasn't one of the integer choices. Try again.");
                 }
             } catch (NumberFormatException e) {
-                scanner.nextLine();
-                System.out.println("This isn't an allowed input. Try again.");
+                System.out.println("\nThis isn't an allowed input. Try again.");
             }
         }
+    }
+
+    private static void sortByDuration() {
+        // TODO: Implement sort
+        System.out.println("\nHere are the routes sorted by duration!");
+    }
+
+    private static void sortByPrice() {
+        // TODO: Implement sort
+        System.out.println("\nHere are the routes sorted by price!");
     }
 }
