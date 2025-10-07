@@ -11,8 +11,6 @@ import main.system.TrainRoute;
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
     private static final RouteMaker routeMaker = new RouteMaker();
-    private static DatabaseReader dbReader = new DatabaseReader();
-    private static ArrayList<TrainRoute> routes;
 
     public static void main(String[] args) {
         mainMenu();
