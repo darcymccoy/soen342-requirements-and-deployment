@@ -8,13 +8,13 @@ public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        DisplayMainMenu();
+        displayMainMenu();
 
         scanner.close();
         System.out.println("\nThe program has terminated.");
     }
 
-    private static void DisplayMainMenu() {
+    private static void displayMainMenu() {
         while (true) {
             String startCity = "";
             String endCity = "";
@@ -40,7 +40,7 @@ public class Driver {
         }
     }
 
-    private static void DisplayRouteOptionsMenu(String startCity, String endCity) {
+    private static void displayRouteOptionsMenu(String startCity, String endCity) {
         while (true) {
             try {
                 System.out.print("1. Exit this menu.\n" +
