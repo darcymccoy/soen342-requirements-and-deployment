@@ -34,7 +34,7 @@ public class Driver {
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
                 if (routeMaker.cityExists(startCity) && routeMaker.cityExists(endCity)) {
-                    System.out.println("\n" + routeMaker.buildRoute(startCity, endCity));
+                    System.out.println("\n" + routeMaker.buildRoute());
                     routeOptionsMenu(startCity, endCity);
                 } else {
                     System.out.println("\nOne or both of the city names were not inputted correctly");
