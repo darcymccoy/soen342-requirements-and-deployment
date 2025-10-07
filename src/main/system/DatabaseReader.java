@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseReader {
-    public ArrayList<TrainConnection> PullDataFromDatabase(){
+    public ArrayList<TrainRoutes> PullDataFromDatabase(){
 
 
         String url = "jdbc:mysql://localhost:3306/testDatabase"; // Database details
@@ -11,7 +11,7 @@ public class DatabaseReader {
         String password = "Facile123";
         String query = "SELECT * FROM testDatabase.eu_rail_network_ascii WHERE `Departure City` = 'Paris';"; // Query to be run
 
-        ArrayList<TrainConnection> connections = new ArrayList<TrainConnection>();
+        ArrayList<TrainRoutes> connections = new ArrayList<TrainRoutes>();
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              Statement stmt = conn.createStatement();
@@ -29,7 +29,7 @@ public class DatabaseReader {
                 String firstClassTicketRate = rs.getString(8);
                 String secondClassTicketRate = rs.getString(9);
 
-                connections.add(new TrainConnection(routeID, departureCity, arrivalCity, departureTime, arrivalTime, trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate));
+                connections.add(new TrainRoutes(routeID, departureCity, arrivalCity, departureTime, arrivalTime, trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate));
             }
 
         } catch (SQLException e) {

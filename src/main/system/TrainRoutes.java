@@ -1,6 +1,6 @@
 package main.system;
 
-public class TrainConnection {
+public class TrainRoutes {
     private String routeID;
     private String departureCity;
     private String arrivalCity;
@@ -11,7 +11,7 @@ public class TrainConnection {
     private String firstClassTicketRate;
     private String secondClassTicketRate;
 
-    public TrainConnection(String routeID, String departureCity, String arrivalCity, String departureTime, String arrivalTime, String trainType, String daysOfOperation, String firstClassTicketRate, String secondClassTicketRate){
+    public TrainRoutes(String routeID, String departureCity, String arrivalCity, String departureTime, String arrivalTime, String trainType, String daysOfOperation, String firstClassTicketRate, String secondClassTicketRate){
         this.routeID = routeID;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
