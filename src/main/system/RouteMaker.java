@@ -1,4 +1,6 @@
 package main.system;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RouteMaker {
 
@@ -8,6 +10,7 @@ public class RouteMaker {
 
     private String startCity;
     private String endCity;
+    private  List<TrainRoutes>  routes = new ArrayList<TrainRoutes>();
 
     public RouteMaker(String startCity, String endCity) {
         this.startCity = startCity;
@@ -24,12 +27,12 @@ public class RouteMaker {
         return true;
     }
 
-    public String buildRoute(String startCity, String endCity) throws NoRouteException {
+    public String buildRoute() throws NoRouteException {
 
-        // routes = findRoutes(startCity,endCity) -> SQL method hugo set it up
+        // routes = find(startCity,endCity);
         // if routes != null then return routes.toString
         //else
-        // findConnections(startCity,endCity);
+        // findConnections();
 
         // TO DO: implement logic
 
@@ -37,9 +40,9 @@ public class RouteMaker {
         return "Here are all the things we found!!";
     }
 
-    public String findConnections(String startCity, String endCity)
+    public String findConnections()
     {
-        //connections = [] -> tuple?
+        //connections;
         //routesStart = findRoutes(startCity);
         //for routesStart , i++
         //  routeConnections = findRoutes(routesStart[i].getArrivalCity,endCity)
