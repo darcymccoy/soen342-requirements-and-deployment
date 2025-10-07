@@ -1,25 +1,22 @@
 package main.driver;
 
-import main.system.DatabaseReader;
-import main.system.TrainRoutes;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import main.system.DatabaseReader;
 import main.system.NoRouteException;
 import main.system.RouteMaker;
+import main.system.TrainRoute;
 
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
     private static final RouteMaker routeMaker = new RouteMaker();
+    private static DatabaseReader dbReader = new DatabaseReader();
+    private static ArrayList<TrainRoute> routes;
 
     public static void main(String[] args) {
         mainMenu();
 
-        /*DatabaseReader reader = new DatabaseReader();
-        ArrayList<TrainRoutes> conn = reader.PullDataFromDatabase();
-        for(TrainRoutes tc : conn){
-            System.out.println(tc.toString());
-        }
-        System.out.println(conn.get(1).toString());*/
         scanner.close();
         System.out.println("\nThe program has terminated.");
     }
