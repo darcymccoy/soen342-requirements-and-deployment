@@ -3,14 +3,10 @@ package main.driver;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import main.system.DatabaseReader;
-import main.system.NoRouteException;
-import main.system.RouteMaker;
-import main.system.TrainRoute;
+import main.system.*;
 
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final RouteMaker routeMaker = new RouteMaker();
     private static DatabaseReader dbReader = new DatabaseReader();
     private static ArrayList<TrainRoute> routes;
 
@@ -30,12 +26,11 @@ public class Driver {
                 startCity = scanner.nextLine();
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
-                if (routeMaker.cityExists(startCity) && routeMaker.cityExists(endCity)) {
-                    System.out.println("\n" + routeMaker.buildRoute());
+
+                ConnectionsCatalogue tc = new ConnectionsCatalogue(startCity,endCity);
+
                     routeOptionsMenu(startCity, endCity);
-                } else {
-                    System.out.println("\nOne or both of the city names were not inputted correctly");
-                }
+
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }

@@ -1,6 +1,5 @@
 package main.system;
 
-import main.system.TrainRoute;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ public class DatabaseReader {
 
         String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
         String username = "root"; // MySQL credentials
-        String password = "Facile123";
+        String password = "hugodarcy342";
         //String query = "SELECT * FROM testDatabase.eu_rail_network_ascii WHERE `Departure City` = 'Paris';"; // Query to be run
 
         ArrayList<TrainRoute> connections = new ArrayList<TrainRoute>();
