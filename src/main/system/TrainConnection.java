@@ -65,8 +65,8 @@ public class TrainConnection {
     private String buildLegs() {
         StringBuilder sb = new StringBuilder();
         if (route1 != null) sb.append(route1);
-        if (route2 != null) sb.append(" -> ").append(route2);
-        if (route3 != null) sb.append(" -> ").append(route3);
+        if (route2 != null) sb.append(" ->  \n").append(route2);
+        if (route3 != null) sb.append(" -> \n").append(route3);
         return sb.length() == 0 ? "(no routes)" : sb.toString();
     }
 

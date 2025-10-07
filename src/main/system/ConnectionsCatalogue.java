@@ -97,7 +97,7 @@ public class ConnectionsCatalogue {
         return null;
     }
 
-    public String ToString() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < catalogue.size(); i++) {
