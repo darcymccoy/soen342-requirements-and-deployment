@@ -1,6 +1,5 @@
 package main.driver;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import main.system.*;
@@ -9,13 +8,13 @@ public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        mainMenu();
+        displayMainMenu();
 
         scanner.close();
         System.out.println("\nThe program has terminated.");
     }
 
-    private static void mainMenu() {
+    private static void displayMainMenu() {
         while (true) {
             String startCity = "";
             String endCity = "";
@@ -26,7 +25,7 @@ public class Driver {
                 endCity = scanner.nextLine();
 
                 ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity);
-
+                System.out.println(cc.toString());
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }
@@ -41,7 +40,7 @@ public class Driver {
         }
     }
 
-    private static void routeOptionsMenu(String startCity, String endCity) {
+    private static void displayRouteOptionsMenu(String startCity, String endCity) {
         while (true) {
             try {
                 System.out.print("1. Exit this menu.\n" +

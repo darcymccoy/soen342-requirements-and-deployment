@@ -11,7 +11,7 @@ public class DatabaseReader {
 
         String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
         String username = "root"; // MySQL credentials
-        String password = "Facile123";
+        String password = "hugodarcy342";
 
         ArrayList<TrainRoute> connections = new ArrayList<TrainRoute>();
 
