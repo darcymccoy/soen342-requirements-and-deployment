@@ -7,12 +7,11 @@ import java.util.ArrayList;
 public class DatabaseReader {
     static final String SCHEMA_NAME = "train_connections";
     static final String TABLE_NAME = "eu_rail_network";
-    private ArrayList<TrainRoute> pullFromDatabase(String query){
+    private ArrayList<TrainRoute> pullObjectFromDatabase(String query){
 
         String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
         String username = "root"; // MySQL credentials
         String password = "Facile123";
-        //String query = "SELECT * FROM testDatabase.eu_rail_network_ascii WHERE `Departure City` = 'Paris';"; // Query to be run
 
         ArrayList<TrainRoute> connections = new ArrayList<TrainRoute>();
 
@@ -44,23 +43,48 @@ public class DatabaseReader {
         return connections;
     }
 
+    private ArrayList<String> pullQueryFromDatabase(String query){
+        String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
+        String username = "root"; // MySQL credentials
+        String password = "Facile123";
+        ArrayList<String> connections = new ArrayList<String>();
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String city = rs.getString(1);
+                connections.add(city);
+            }
+
+            if(connections.size() == 0){
+                // make a no returns thing
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connections;
+    }
+
     public ArrayList<TrainRoute> findArrivals(String arrivalCity){
         String query = String.format("SELECT * FROM %s WHERE `Arrival City` = '%s'",TABLE_NAME, arrivalCity);
-        return pullFromDatabase(query);
+        return pullObjectFromDatabase(query);
     }
 
     public ArrayList<TrainRoute> findDepartures(String departureCity){
         String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s'",TABLE_NAME, departureCity);
-        return pullFromDatabase(query);
+        return pullObjectFromDatabase(query);
     }
 
     public ArrayList<TrainRoute> findDepartureArrivalPair(String departureCity, String arrivalCity){
         String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s' AND `Arrival City` = '%s'",TABLE_NAME, departureCity, arrivalCity);
-        return pullFromDatabase(query);
+        return pullObjectFromDatabase(query);
     }
 
-    public ArrayList<TrainRoute> listAllCities(){
+    public ArrayList<String> listAllCities(){
         String query = String.format("SELECT `Departure City` AS City FROM %s UNION SELECT `Arrival City` AS City FROM %s;",TABLE_NAME, TABLE_NAME);
-        return pullFromDatabase(query);
+        return pullQueryFromDatabase(query);
     }
 }

@@ -1,4 +1,5 @@
 package main.system;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,8 @@ public class RouteMaker {
 
     private String startCity;
     private String endCity;
-    private  List<TrainRoutes>  routes = new ArrayList<TrainRoutes>();
+    private  List<TrainRoute>  routes = new ArrayList<TrainRoute>();
+    private DatabaseReader reader = new DatabaseReader();
 
     public RouteMaker(String startCity, String endCity) {
         this.startCity = startCity;
@@ -29,7 +31,6 @@ public class RouteMaker {
 
     public String buildRoute() throws NoRouteException {
 
-        // routes = find(startCity,endCity);
         // if routes != null then return routes.toString
         //else
         // findConnections();
