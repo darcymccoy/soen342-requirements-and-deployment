@@ -11,8 +11,6 @@ import main.system.TrainRoute;
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
     private static final RouteMaker routeMaker = new RouteMaker();
-    private static DatabaseReader dbReader = new DatabaseReader();
-    private static ArrayList<TrainRoute> routes;
 
     public static void main(String[] args) {
         mainMenu();
@@ -31,7 +29,8 @@ public class Driver {
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
                 if (routeMaker.cityExists(startCity) && routeMaker.cityExists(endCity)) {
-                    System.out.println("\n" + routeMaker.buildRoute());
+                    RouteMaker rm = new RouteMaker(startCity, endCity);
+                    System.out.println("\n" + rm.buildRoute());
                     routeOptionsMenu(startCity, endCity);
                 } else {
                     System.out.println("\nOne or both of the city names were not inputted correctly");
