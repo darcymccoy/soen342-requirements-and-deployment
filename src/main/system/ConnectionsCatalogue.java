@@ -7,10 +7,6 @@ import java.util.List;
 
 public class ConnectionsCatalogue {
 
-    public ConnectionsCatalogue() {
-
-    }
-
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("H:mm");
 
     private String startCity;
@@ -61,7 +57,7 @@ public class ConnectionsCatalogue {
                     TrainConnection tc = new TrainConnection(connection[0], connection[1], 10);
                     catalogue.add(tc);
                 }
-                return;
+
             }
         }
         findConnections2();
@@ -86,6 +82,31 @@ public class ConnectionsCatalogue {
         return connections;
     }
 
+    public void findConnections2() {
+
+        List<TrainRoute> routePart1 = reader.findDepartures(startCity);
+        List<TrainRoute> routePart2 = reader.findArrivals(endCity);
+
+        for (TrainRoute routeStart : routePart1)
+        {
+           String city = routeStart.getArrivalCity();
+            for  (TrainRoute routeEnd : routePart2)
+            {
+              List<TrainRoute>  temp =  reader.findDepartureArrivalPair(city, routeEnd.getDepartureCity());
+
+              for (TrainRoute route : temp)
+              {
+                  catalogue.add(new TrainConnection(routeStart,route,routeEnd,10));
+              }
+            }
+        }
+
+
+
+    }
+
+
+
     public boolean DayOperation(String a, String b) {
 
 
@@ -93,18 +114,16 @@ public class ConnectionsCatalogue {
     }
 
 
-    public List<TrainRoute[]> findConnections2() {
-        return null;
-    }
+
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < catalogue.size(); i++) {
-            sb.append(i + 1)
-                    .append(". ")
-                    .append(catalogue.get(i)) // relies on TrainConnection.toString()
-                    .append(System.lineSeparator());
+            sb.append("Option "+ (i + 1))
+                    .append(": \n")
+                    .append(catalogue.get(i))
+                    .append(System.lineSeparator()+"\n");
         }
         return sb.toString();
 
