@@ -26,6 +26,7 @@ public class Driver {
 
                 ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity);
                 System.out.println(cc.toString());
+                displayRouteOptionsMenu(cc);
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }
@@ -40,7 +41,7 @@ public class Driver {
         }
     }
 
-    private static void displayRouteOptionsMenu(String startCity, String endCity) {
+    private static void displayRouteOptionsMenu(ConnectionsCatalogue connectionsCatalogue) {
         while (true) {
             try {
                 System.out.print("1. Exit this menu.\n" +
@@ -51,9 +52,11 @@ public class Driver {
                 if (choice == 1) {
                     return;
                 } else if (choice == 2) {
-                    sortByDuration();
+                    connectionsCatalogue.sortByDuration();
+                    System.out.println(connectionsCatalogue);
                 } else if (choice == 3) {
-                    sortByPrice();
+                    connectionsCatalogue.sortByPrice();
+                    System.out.println(connectionsCatalogue);
                 } else {
                     System.out.println("\nThis wasn't one of the integer choices. Try again.");
                 }
@@ -61,15 +64,5 @@ public class Driver {
                 System.out.println("\nThis isn't an allowed input. Try again.");
             }
         }
-    }
-
-    private static void sortByDuration() {
-        // TODO: Implement sort
-        System.out.println("\nHere are the routes sorted by duration!");
-    }
-
-    private static void sortByPrice() {
-        // TODO: Implement sort
-        System.out.println("\nHere are the routes sorted by price!");
     }
 }
