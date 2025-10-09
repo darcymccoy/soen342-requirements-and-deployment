@@ -7,11 +7,13 @@ import java.util.ArrayList;
 public class DatabaseReader {
     static final String SCHEMA_NAME = "train_connections";
     static final String TABLE_NAME = "eu_rail_network";
+    static final String USERNAME = "root";
+    static final String PASSWORD = "Facile123";
     private ArrayList<TrainRoute> pullObjectFromDatabase(String query){
 
         String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
-        String username = "root"; // MySQL credentials
-        String password = "hugodarcy342";
+        String username = USERNAME; // MySQL credentials
+        String password = PASSWORD;
 
         ArrayList<TrainRoute> connections = new ArrayList<TrainRoute>();
 
@@ -45,8 +47,8 @@ public class DatabaseReader {
 
     private ArrayList<String> pullQueryFromDatabase(String query){
         String url = String.format("jdbc:mysql://localhost:3306/%s", SCHEMA_NAME); // Database details
-        String username = "root"; // MySQL credentials
-        String password = "Facile123";
+        String username = USERNAME; // MySQL credentials
+        String password = PASSWORD;
         ArrayList<String> connections = new ArrayList<String>();
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
