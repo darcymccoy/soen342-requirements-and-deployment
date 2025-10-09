@@ -10,12 +10,12 @@
 
 ### Setup the Database
 
-1. Install mysql
+1. Install MySQL
 
-1. Set password
+    > [!WARNING]  
+    > When setting up MySQL you will be prompted to create a password. Make a note of it because ou will need it later
 
-  > [!WARNING]  
-  > Make a note of this password. You will need it later.
+1. Set the password variable in [database.properties](database.properties)
 
 1. Import the csv file
 
