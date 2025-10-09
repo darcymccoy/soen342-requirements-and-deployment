@@ -46,7 +46,8 @@ public class Driver {
             try {
                 System.out.print("1. Exit this menu.\n" +
                         "2. Sort by trip duration.\n" +
-                        "3. Sort by price.\n" +
+                        "3. Sort by second class rate.\n" +
+                        "4. Sort by first class rate.\n" +
                         "Enter an integer to choose from the above options: ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 1) {
@@ -55,7 +56,10 @@ public class Driver {
                     connectionsCatalogue.sortByDuration();
                     System.out.println(connectionsCatalogue);
                 } else if (choice == 3) {
-                    connectionsCatalogue.sortByPrice();
+                    connectionsCatalogue.sortBySecondClassRate();
+                    System.out.println(connectionsCatalogue);
+                } else if (choice == 4) {
+                    connectionsCatalogue.sortByFirstClassRate();
                     System.out.println(connectionsCatalogue);
                 } else {
                     System.out.println("\nThis wasn't one of the integer choices. Try again.");

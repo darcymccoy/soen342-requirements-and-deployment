@@ -57,6 +57,30 @@ public class TrainConnection {
         this.duration = duration;
     }
 
+    public int getSecondCLassRate() {
+        int totalSecondRate = 0;
+        totalSecondRate += Integer.parseInt(route1.getSecondClassTicketRate());
+        if (route2 != null) {
+            totalSecondRate += Integer.parseInt(route2.getSecondClassTicketRate());
+        }
+        if (route3 != null) {
+            totalSecondRate += Integer.parseInt(route3.getSecondClassTicketRate());
+        }
+        return totalSecondRate;
+    }
+
+    public int getFirstCLassRate() {
+        int totalFirstRate = 0;
+        totalFirstRate += Integer.parseInt(route1.getFirstClassTicketRate());
+        if (route2 != null) {
+            totalFirstRate += Integer.parseInt(route2.getFirstClassTicketRate());
+        }
+        if (route3 != null) {
+            totalFirstRate += Integer.parseInt(route3.getFirstClassTicketRate());
+        }
+        return totalFirstRate;
+    }
+
     public String toString() {
         String legs = buildLegs();
         return String.format("%s \n(duration %s)", legs, formatDuration(duration));
