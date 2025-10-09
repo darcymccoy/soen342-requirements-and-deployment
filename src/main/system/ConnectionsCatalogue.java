@@ -1,4 +1,5 @@
 package main.system;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -52,16 +53,29 @@ public class ConnectionsCatalogue {
             }
             return;
         } else {
+            boolean valid = false;
             List<TrainRoute[]> connections = findConnections();
             if (connections != null) {
                 for (TrainRoute[] connection : connections) {
-                    TrainConnection tc = new TrainConnection(connection[0], connection[1], 10);
-                    catalogue.add(tc);
-                }
+                    TrainRoute route1 = connection[0];
+                    TrainRoute  route2 = connection[1];
 
+                    if (timeOperation(route1, route2)>0)
+                    {
+                        if(dayOperation(route1.getDaysOfOperation(),route2.getDaysOfOperation()))
+                        {
+                            TrainConnection tc = new TrainConnection(route1,route2, timeOperation(route1, route2));
+                            catalogue.add(tc);
+                            valid = true;
+                        }
+
+                    }
+
+                }
+              if (valid) {return;}
             }
         }
-        findConnections2();
+        if (!findConnections2()){throw new NoRouteException();};
 
     }
 
@@ -83,36 +97,65 @@ public class ConnectionsCatalogue {
         return connections;
     }
 
-    public void findConnections2() {
 
+    public long timeOperation(TrainRoute a, TrainRoute b) {
+
+        LocalTime a1 = LocalTime.parse(a.getDepartureTime(), FMT);
+        LocalTime a2 = LocalTime.parse(a.getArrivalTime(), FMT);
+        LocalTime b1 = LocalTime.parse(b.getDepartureTime(), FMT);
+        LocalTime b2 = LocalTime.parse(b.getArrivalTime(), FMT);
+
+        if (ChronoUnit.MINUTES.between(a2, b1) > 0) {
+            return ChronoUnit.MINUTES.between(a1, b2);
+        }
+
+        return -1;
+    }
+
+
+    public boolean dayOperation(String a, String b) {
+        if (a.equals("Daily") || b.equals("Daily")) {
+            return true;
+        }
+
+        return switch (a) {
+            case ("Fri-Sun") -> !b.equals("Tue,Thu");
+            case ("Mon,Wed,Fri") -> !b.equals("Tue,Thu") && !b.equals("Sat-Sun");
+            case ("Tue,Thu") -> b.equals("Mon-Fri");
+            case ("Sat-Sun") -> b.equals("Fri-Sun");
+            case ("Mon-Fri") -> !b.equals("Sat-Sun");
+            default -> false;
+        };
+
+    }
+
+    public boolean findConnections2() {
+        boolean valid  = false;
         List<TrainRoute> routePart1 = reader.findDepartures(startCity);
         List<TrainRoute> routePart2 = reader.findArrivals(endCity);
 
-        for (TrainRoute routeStart : routePart1)
-        {
-           String city = routeStart.getArrivalCity();
-            for  (TrainRoute routeEnd : routePart2)
-            {
-              List<TrainRoute>  temp =  reader.findDepartureArrivalPair(city, routeEnd.getDepartureCity());
+        for (TrainRoute routeStart : routePart1) {
+            String city = routeStart.getArrivalCity();
+            for (TrainRoute routeEnd : routePart2) {
+                List<TrainRoute> temp = reader.findDepartureArrivalPair(city, routeEnd.getDepartureCity());
 
-              for (TrainRoute route : temp)
-              {
-                  catalogue.add(new TrainConnection(routeStart,route,routeEnd,10));
-              }
+                for (TrainRoute route : temp) {
+
+                    if( (timeOperation(routeStart, route) > 0) && (timeOperation(route, routeEnd) > 0)) {
+                        if (dayOperation(routeStart.getDaysOfOperation(), route.getDaysOfOperation()) && dayOperation(route.getDaysOfOperation(), routeEnd.getDaysOfOperation())) {
+                            valid = true;
+                            catalogue.add(new TrainConnection(routeStart, route, routeEnd, timeOperation(routeStart, route) + timeOperation(route, routeEnd)));
+
+                        }
+                    }
+                }
             }
         }
-
-
+        return valid;
 
     }
 
 
-
-    public boolean DayOperation(String a, String b) {
-
-
-        return false;
-    }
 
     public void sortByDuration() {
         catalogue.sort(Comparator.comparingLong(TrainConnection::getDuration));
@@ -130,10 +173,10 @@ public class ConnectionsCatalogue {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < catalogue.size(); i++) {
-            sb.append("Option "+ (i + 1))
+            sb.append("Option " + (i + 1))
                     .append(": \n")
                     .append(catalogue.get(i))
-                    .append(System.lineSeparator()+"\n");
+                    .append(System.lineSeparator() + "\n");
         }
         return sb.toString();
 
