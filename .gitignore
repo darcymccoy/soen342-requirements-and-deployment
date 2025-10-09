@@ -7,3 +7,8 @@
 *.iws
 *.iml
 *.ipr
+
+### VSCode ###
+.vscode
+
+database.properties
