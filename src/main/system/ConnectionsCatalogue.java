@@ -3,6 +3,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ConnectionsCatalogue {
@@ -113,8 +114,17 @@ public class ConnectionsCatalogue {
         return false;
     }
 
+    public void sortByDuration() {
+        catalogue.sort(Comparator.comparingLong(TrainConnection::getDuration));
+    }
 
+    public void sortBySecondClassRate() {
+        catalogue.sort(Comparator.comparingInt(TrainConnection::getSecondCLassRate));
+    }
 
+    public void sortByFirstClassRate() {
+        catalogue.sort(Comparator.comparingInt(TrainConnection::getFirstCLassRate));
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
