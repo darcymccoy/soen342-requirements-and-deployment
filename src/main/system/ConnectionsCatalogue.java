@@ -79,7 +79,7 @@ public class ConnectionsCatalogue {
 
     }
 
-    public List<TrainRoute[]> findConnections() {
+    private List<TrainRoute[]> findConnections() {
 
         List<TrainRoute[]> connections = new ArrayList<TrainRoute[]>();
         List<TrainRoute> routePart1 = reader.findDepartures(startCity);
@@ -98,7 +98,7 @@ public class ConnectionsCatalogue {
     }
 
 
-    public long timeOperation(TrainRoute a, TrainRoute b) {
+    private long timeOperation(TrainRoute a, TrainRoute b) {
 
         LocalTime a1 = LocalTime.parse(a.getDepartureTime(), FMT);
         LocalTime a2 = LocalTime.parse(a.getArrivalTime(), FMT);
@@ -113,7 +113,7 @@ public class ConnectionsCatalogue {
     }
 
 
-    public boolean dayOperation(String a, String b) {
+    private boolean dayOperation(String a, String b) {
         if (a.equals("Daily") || b.equals("Daily")) {
             return true;
         }
@@ -129,7 +129,7 @@ public class ConnectionsCatalogue {
 
     }
 
-    public boolean findConnections2() {
+    private boolean findConnections2() {
         boolean valid  = false;
         List<TrainRoute> routePart1 = reader.findDepartures(startCity);
         List<TrainRoute> routePart2 = reader.findArrivals(endCity);
