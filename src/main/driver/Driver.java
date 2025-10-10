@@ -25,7 +25,7 @@ public class Driver {
                 endCity = scanner.nextLine();
 
                 ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity);
-                System.out.println(cc.toString());
+                System.out.println(cc);
                 displayRouteOptionsMenu(cc);
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
