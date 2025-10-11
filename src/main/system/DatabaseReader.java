@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 public class DatabaseReader {
@@ -36,7 +35,7 @@ public class DatabaseReader {
             }
         }
         query = queryBuilder.toString();
-        System.out.println(query);
+
         try {
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             PreparedStatement stmt;
@@ -76,7 +75,7 @@ public class DatabaseReader {
         return null;
     }
 
-    private ArrayList<TrainRoute> pullObjectFromDatabase(String query) {
+    /*private ArrayList<TrainRoute> pullObjectFromDatabase(String query) {
         ArrayList<TrainRoute> connections = new ArrayList<TrainRoute>();
 
         try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -99,14 +98,14 @@ public class DatabaseReader {
             }
 
             if (connections.size() == 0) {
-                // make a no returns thing
+                // make a no return thing
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return connections;
-    }
+    }*/
 
     private ArrayList<String> pullQueryFromDatabase(String query) {
         ArrayList<String> connections = new ArrayList<String>();
@@ -132,19 +131,28 @@ public class DatabaseReader {
 
     //TODO fix all SQL statements to have prepared statement
     public ArrayList<TrainRoute> findArrivals(String arrivalCity) {
-        String query = String.format("SELECT * FROM %s WHERE `Arrival City` = '%s'", TABLE_NAME, arrivalCity);
-        return (ArrayList<TrainRoute>)reader(query);
+        String escaped = arrivalCity.replaceAll("'", "\\\\'");
+        StringBuilder queryBuilder = new StringBuilder(String.format("SELECT * FROM %s WHERE `Arrival City` = '", TABLE_NAME));
+        queryBuilder.append(escaped).append("'");
+        //String query = String.format("SELECT * FROM %s WHERE `Arrival City` = '%s'", TABLE_NAME, arrivalCity);
+        return (ArrayList<TrainRoute>)reader(queryBuilder.toString());
     }
 
     public ArrayList<TrainRoute> findDepartures(String departureCity) {
-        String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s'", TABLE_NAME, departureCity);
-        return (ArrayList<TrainRoute>)reader(query);
+        String escaped = departureCity.replaceAll("'", "\\\\'");
+        StringBuilder queryBuilder = new StringBuilder(String.format("SELECT * FROM %s WHERE `Departure City` = '", TABLE_NAME));
+        queryBuilder.append(escaped).append("'");
+        //String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s'", TABLE_NAME, departureCity);
+        return (ArrayList<TrainRoute>)reader(queryBuilder.toString());
     }
 
     public ArrayList<TrainRoute> findDepartureArrivalPair(String departureCity, String arrivalCity) {
-        String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s' AND `Arrival City` = '%s'",
-                TABLE_NAME, departureCity, arrivalCity);
-        return (ArrayList<TrainRoute>)reader(query);
+        String depEscaped = departureCity.replaceAll("'", "\\\\'");
+        String arrEscaped = arrivalCity.replaceAll("'", "\\\\'");
+        StringBuilder queryBuilder = new StringBuilder(String.format("SELECT * FROM %s WHERE `Departure City` = '", TABLE_NAME));
+        queryBuilder.append(depEscaped).append("'").append(" AND `Arrival City` = '").append(arrEscaped).append("'");
+        //String query = String.format("SELECT * FROM %s WHERE `Departure City` = '%s' AND `Arrival City` = '%s'", TABLE_NAME, departureCity, arrivalCity);
+        return (ArrayList<TrainRoute>)reader(queryBuilder.toString());
     }
 
     public ArrayList<String> listAllCities() {

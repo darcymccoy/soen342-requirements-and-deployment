@@ -27,7 +27,6 @@ public class Driver {
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
 
-                //TODO ask the user if they want to add any parameters to the query
                 String choiceParameter = "";
                 while(!choiceParameter.equalsIgnoreCase("no")){
                     choiceParameter = displayParameterOptions("");
@@ -39,9 +38,7 @@ public class Driver {
                     }
 
                 }
-                for(String x : paramArr){
-                    System.out.println(x);
-                }
+
                 ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity, paramArr);
                 System.out.println(cc);
                 displayRouteOptionsMenu(cc);

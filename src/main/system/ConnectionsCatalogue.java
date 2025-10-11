@@ -119,7 +119,6 @@ public class ConnectionsCatalogue {
 
             List<TrainRoute> routePart2temp = reader.findDepartureArrivalPair(routePart1.get(i).getArrivalCity(), endCity);
             for (int j = 0; j < routePart2temp.size(); j++) {
-                System.out.println("Found");
                 TrainRoute[] temp = {routePart1.get(i), routePart2temp.get(j)};
                 connections.add(temp);
             }
