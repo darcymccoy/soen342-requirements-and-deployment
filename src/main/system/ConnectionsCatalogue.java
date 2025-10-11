@@ -18,7 +18,7 @@ public class ConnectionsCatalogue {
     private List<TrainConnection> catalogue = new ArrayList<>();
 
 
-    public ConnectionsCatalogue(String startCity, String endCity) throws NoRouteException {
+    public ConnectionsCatalogue(String startCity, String endCity, String[] arr) throws NoRouteException {
         this.startCity = startCity;
         this.endCity = endCity;
         int bothCitiesValid = 0;
@@ -35,14 +35,46 @@ public class ConnectionsCatalogue {
         if (bothCitiesValid < 2) {
             NoRouteException e = new NoRouteException();
             throw e;
-        } else buildRoute();
+        }
+        else{
+
+
+            buildRoute(arr);
+        }
 
     }
 
 
-    public void buildRoute() throws NoRouteException {
-
+    public void buildRoute(String[] arr) throws NoRouteException {
+        reader.resetArrs();
+        for(int i = 0; i < 6; i++){
+            if(arr[i] != null){
+                switch(i){
+                    case 0:
+                        reader.filterByDepTime(arr[i]);
+                        break;
+                    case 1:
+                        reader.filterByArrTime(arr[i]);
+                        break;
+                    case 2:
+                        reader.filterByTrainType(arr[i]);
+                        break;
+                    case 3:
+                        reader.filterByDOO(arr[i]);
+                        break;
+                    case 4:
+                        reader.filterByFirstClass(arr[i]);
+                        break;
+                    case 5:
+                        reader.filterBySecondClass(arr[i]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         routes = reader.findDepartureArrivalPair(startCity, endCity);
+        reader.resetArrs();
         if (!routes.isEmpty()) {
             for (TrainRoute route : routes) {
                 LocalTime t1 = LocalTime.parse(route.getDepartureTime(), FMT);
@@ -87,7 +119,6 @@ public class ConnectionsCatalogue {
 
             List<TrainRoute> routePart2temp = reader.findDepartureArrivalPair(routePart1.get(i).getArrivalCity(), endCity);
             for (int j = 0; j < routePart2temp.size(); j++) {
-
                 TrainRoute[] temp = {routePart1.get(i), routePart2temp.get(j)};
                 connections.add(temp);
             }
