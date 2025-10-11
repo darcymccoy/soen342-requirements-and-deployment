@@ -1,12 +1,15 @@
 package main.driver;
 
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import main.system.*;
 
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
-
+    private static String[] paramArr = {null,null,null,null,null,null};
     public static void main(String[] args) {
         displayMainMenu();
 
@@ -24,7 +27,22 @@ public class Driver {
                 System.out.print("Enter where you are travelling to: ");
                 endCity = scanner.nextLine();
 
-                ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity);
+                //TODO ask the user if they want to add any parameters to the query
+                String choiceParameter = "";
+                while(!choiceParameter.equalsIgnoreCase("no")){
+                    choiceParameter = displayParameterOptions("");
+                    if(choiceParameter.equalsIgnoreCase("no")){
+                        break;
+                    }
+                    else if (choiceParameter.equals("-1")){
+                        continue;
+                    }
+
+                }
+                for(String x : paramArr){
+                    System.out.println(x);
+                }
+                ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity, paramArr);
                 System.out.println(cc);
                 displayRouteOptionsMenu(cc);
             } catch (NoRouteException e) {
@@ -41,6 +59,103 @@ public class Driver {
         }
     }
 
+    private static String displayParameterOptions(String choice){
+        try{
+            System.out.println("Are there any parameters you would like to specify in the following list? \n(Type NO or type a number from the list)");
+            System.out.println("""
+            1. Departure Time
+            2. Arrival Time
+            3. Train Type
+            4. Days of Operation
+            5. First class ticket rate
+            6. Second class ticket rate
+            """);
+            choice = scanner.nextLine();
+            if(choice.equalsIgnoreCase("no"))
+                return "no";
+            int paramChoice = Integer.parseInt(choice);
+            if(paramChoice > 6 || paramChoice < 0){
+                throw new NumberFormatException(choice);
+            }
+            while(true){
+                String time;
+                String regex = "^\\d{2}:\\d{2}$";
+                switch(paramChoice){
+                    case 1:
+                        System.out.println("Please type in a time you would like the train to leave at (in 24hr time following format 00:00):");
+                        time = scanner.nextLine();
+                        if(time.equalsIgnoreCase("back"))
+                            return "-1";
+                        if (!time.matches(regex)){
+                            System.out.println("Time entered not valid, please try again or type BACK to go back.");
+                            break;
+                        }
+                        paramArr[0] = time;
+                        return "";
+                    case 2:
+                        System.out.println("Please type in a time you would like the train to arrive at (in 24hr time following format 00:00):");
+                        time = scanner.nextLine();
+                        if(time.equalsIgnoreCase("back"))
+                            return "-1";
+                        if (!time.matches(regex)){
+                            System.out.println("Time entered not valid, please try again or type BACK to go back.");
+                            break;
+                        }
+                        paramArr[1] = time;
+                        return time;
+                    case 3:
+                        System.out.println("Please select a train type from the following list:");
+                        System.out.println("""
+                                RJX
+                                ICE
+                                InterCity
+                                Frecciarossa
+                                RegioExpress
+                                EuroCity
+                                TGV
+                                Italo
+                                RE
+                                Nightjet
+                                Intercit?s
+                                Thalys
+                                Eurostar
+                                TER
+                                IC
+                                AVE
+                                Railijet
+                                """);
+                        paramArr[2] = scanner.nextLine();
+                        return "";
+                    case 4:
+                        System.out.println("Please select days of operation from the following list:");
+                        System.out.println("""
+                                Fri-Sun
+                                Daily
+                                Mon,Wed,Fri
+                                Tue,Thu
+                                Sat-Sun
+                                Mon-Fri
+                                """);
+                        paramArr[3] = scanner.nextLine();
+                        return "";
+                    case 5:
+                        System.out.println("Please type a rate you would like for First Class Tickets");
+                        paramArr[4] = scanner.nextLine();
+                        return "";
+                    case 6:
+                        System.out.println("Please type a rate you would like for Second Class Tickets");
+                        paramArr[5] = scanner.nextLine();
+                        return "";
+
+                }
+            }
+
+        } catch (NumberFormatException nfe){
+            System.out.println("The input was not as expected! Please try again");
+            return "-1";
+        }
+    }
+
     private static void displayRouteOptionsMenu(ConnectionsCatalogue connectionsCatalogue) {
         while (true) {
             try {
@@ -51,6 +166,7 @@ public class Driver {
                         "Enter an integer to choose from the above options: ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 1) {
+                    paramArr = new String[]{null,null,null,null,null,null};
                     return;
                 } else if (choice == 2) {
                     connectionsCatalogue.sortByDuration();
