@@ -15,8 +15,8 @@
    - make sure to set the operating system to your computers OS and download whatever file you prefer
    - In the installer, keep all your server settings to default
 
-    > [!WARNING]  
-    > When setting up MySQL you will be prompted to create a password. Make note of it because you will need it later
+  > [!WARNING]
+  > When setting up MySQL you will be prompted to create a password. Make note of it because you will need it later
 
 1. Install MySQL Workbench
    - Download at this link: https://dev.mysql.com/downloads/workbench/
