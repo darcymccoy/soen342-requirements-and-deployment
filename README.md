@@ -32,7 +32,8 @@
    - Open the dropdown for the schema you just created and right click tables
    - Click on the table data import Wizard
    - Download the file linked in the wiki
-   - in the wizard, select the file path to the file you just downloaded
+   - in the wizard, select the file path to the file you just downloaded and click next
+   - make sure the table is named eu_rail_network and click next
    - click next until the wizard is finished
 
 1. back in the code, Set the `password` environment variable in [database.properties](database.properties) with your password
