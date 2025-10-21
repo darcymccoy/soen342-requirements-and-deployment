@@ -48,7 +48,10 @@ public class Driver {
         lastName = scanner.nextLine();
         System.out.print("Enter your id: ");
         id = scanner.nextLine();
-        // TODO implement display trips
+        List<Trip> trips = TripCatalogue.findTrips(lastName, id);
+        for (Trip trip : trips) {
+            System.out.println(trip);
+        }
     }
 
     private static void displayConnectionsMenu() {
@@ -73,12 +76,12 @@ public class Driver {
 
                 }
 
-                ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity, paramArr);
-                System.out.println(cc);
-                displayRouteOptionsMenu(cc);
-                System.out.print("\nEnter the corresponding integer to choose your connection: ");
-                int connectionNumber = Integer.parseInt(scanner.nextLine());
-                // TODO
+                ConnectionsCatalogue connections = new ConnectionsCatalogue(startCity, endCity, paramArr);
+                System.out.println(connections);
+                displayRouteOptionsMenu(connections);
+                System.out.print("\nEnter the corresponding route number to choose your connection: ");
+                int connectionIndex = Integer.parseInt(scanner.nextLine());
+                bookTripMenu(connections.getTrainConnection(connectionIndex - 1));
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }
@@ -91,6 +94,43 @@ public class Driver {
             } catch (NumberFormatException ignored) {
             }
         }
+    }
+
+    private static void bookTripMenu(TrainConnection connection) {
+        System.out.print("Enter your first name: ");
+        String firstName = scanner.nextLine();
+        System.out.print("Enter your last name: ");
+        String lastName = scanner.nextLine();
+        System.out.print("Enter your age: ");
+        int age = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter your passenger id: ");
+        String passengerID = scanner.nextLine();
+        Trip trip = new Trip(connection, firstName, lastName, age, passengerID);
+        while(true) {
+            try {
+                System.out.print("""
+                        \n1. Continue.
+                        2. Add another reservation to this trip.
+                        Enter an integer to choose from the above options:\s""");
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice == 1) {
+                    break;
+                } else {
+                    System.out.print("Enter the additional passenger first name: ");
+                    String extraFirstName = scanner.nextLine();
+                    System.out.print("Enter the additional passenger last name: ");
+                    String extraLastName = scanner.nextLine();
+                    System.out.print("Enter the additional passenger age: ");
+                    int extraAge = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Enter the additional passenger id: ");
+                    String extraPassengerID = scanner.nextLine();
+                    trip.addReservation(extraFirstName, extraLastName, extraAge, extraPassengerID);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\nThis isn't an allowed input. Try again.");
+            }
+        }
+        TripCatalogue.addTrip(trip);
     }
 
     private static String displayParameterOptions(String choice){

@@ -192,6 +192,10 @@ public class ConnectionsCatalogue {
         catalogue.sort(Comparator.comparingInt(TrainConnection::getSecondCLassRate));
     }
 
+    public TrainConnection getTrainConnection(int index) {
+        return catalogue.get(index);
+    }
+
     public void sortByFirstClassRate() {
         catalogue.sort(Comparator.comparingInt(TrainConnection::getFirstCLassRate));
     }
