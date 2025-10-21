@@ -11,4 +11,5 @@
 ### VSCode ###
 .vscode
 
+target
 database.properties
