@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Trip {
     private UUID tripId;
     private List<Reservation>  reservations = new ArrayList<Reservation>();
+    private TrainConnection trainConnection;
 
     public Trip() {
         this.tripId = UUID.randomUUID();
