@@ -11,7 +11,7 @@
 ### Setup the Database
 
 1. Install MySQL server.
-   - Dowload at this link: https://dev.mysql.com/downloads/mysql/
+   - [Dowload at this link](https://dev.mysql.com/downloads/mysql/)
    - make sure to set the operating system to your computers OS and download whatever file you prefer
    - In the installer, keep all your server settings to default
 
@@ -19,7 +19,7 @@
   > When setting up MySQL you will be prompted to create a password. Make note of it because you will need it later
 
 1. Install MySQL Workbench
-   - Download at this link: https://dev.mysql.com/downloads/workbench/
+   - [Download at this link](https://dev.mysql.com/downloads/workbench/)
    - make sure the OS matches and download whatever file you prefer
    - Download the MSI installer and keep everything default in the installer
 
