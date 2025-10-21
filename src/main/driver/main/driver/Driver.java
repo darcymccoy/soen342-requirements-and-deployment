@@ -19,6 +19,40 @@ public class Driver {
 
     private static void displayMainMenu() {
         while (true) {
+            try {
+                System.out.print("""
+                        1. Exit the program.
+                        2. Book a Trip.
+                        3. View Trips.
+                        Enter an integer to choose from the above options:\s""");
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice == 1) {
+                    return;
+                } else if (choice == 2) {
+                    displayConnectionsMenu();
+                } else if (choice == 3) {
+                    displayTripsMenu();
+                } else {
+                    System.out.println("\nThis wasn't one of the integer choices. Try again.");
+                }
+            } catch (NumberFormatException ignored) {
+                System.out.println("\nThis isn't an allowed input. Try again.");
+            }
+        }
+    }
+
+    private static void displayTripsMenu() {
+        String lastName = "";
+        String id = "";
+        System.out.print("Enter your last name: ");
+        lastName = scanner.nextLine();
+        System.out.print("Enter your id: ");
+        id = scanner.nextLine();
+        // TODO implement display trips
+    }
+
+    private static void displayConnectionsMenu() {
+        while (true) {
             String startCity = "";
             String endCity = "";
             try {
@@ -42,16 +76,19 @@ public class Driver {
                 ConnectionsCatalogue cc = new ConnectionsCatalogue(startCity, endCity, paramArr);
                 System.out.println(cc);
                 displayRouteOptionsMenu(cc);
+                System.out.print("\nEnter the corresponding integer to choose your connection: ");
+                int connectionNumber = Integer.parseInt(scanner.nextLine());
+                // TODO
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
             }
             try {
-                System.out.print("Enter 1 to exit the program (or <enter> to continue): ");
+                System.out.print("Enter 1 to exit the connections menu (or <enter> to continue): ");
                 int exitInput = Integer.parseInt(scanner.nextLine());
                 if (exitInput == 1) {
                     return;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
             }
         }
     }
@@ -156,7 +193,7 @@ public class Driver {
     private static void displayRouteOptionsMenu(ConnectionsCatalogue connectionsCatalogue) {
         while (true) {
             try {
-                System.out.print("1. Exit this menu.\n" +
+                System.out.print("1. Exit this menu to select a connection.\n" +
                         "2. Sort by trip duration.\n" +
                         "3. Sort by second class rate.\n" +
                         "4. Sort by first class rate.\n" +
