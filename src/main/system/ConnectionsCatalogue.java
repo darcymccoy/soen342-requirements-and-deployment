@@ -128,7 +128,6 @@ public class ConnectionsCatalogue {
         return connections;
     }
 
-
     private long timeOperation(TrainRoute a, TrainRoute b) {
 
         LocalTime a1 = LocalTime.parse(a.getDepartureTime(), FMT);
@@ -142,7 +141,6 @@ public class ConnectionsCatalogue {
 
         return -1;
     }
-
 
     private boolean dayOperation(String a, String b) {
         if (a.equals("Daily") || b.equals("Daily")) {
@@ -185,8 +183,6 @@ public class ConnectionsCatalogue {
         return valid;
 
     }
-
-
 
     public void sortByDuration() {
         catalogue.sort(Comparator.comparingLong(TrainConnection::getDuration));
