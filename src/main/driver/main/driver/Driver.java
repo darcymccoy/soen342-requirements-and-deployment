@@ -105,7 +105,8 @@ public class Driver {
         int age = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter your passenger id: ");
         String passengerID = scanner.nextLine();
-        Trip trip = new Trip(connection, firstName, lastName, age, passengerID);
+        Trip trip = new Trip(connection);
+        trip.addReservation(firstName, lastName, age, passengerID);
         while(true) {
             try {
                 System.out.print("""

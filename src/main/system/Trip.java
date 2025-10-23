@@ -7,16 +7,12 @@ public class Trip {
     private UUID tripId;
     private List<Reservation>  reservations = new ArrayList<Reservation>();
     private TrainConnection trainConnection;
-    private String BookerName;
-    private String BookerId;
 
 
-    public Trip(TrainConnection trainConnection, String fName, String lName, int age, String Pid) {
+    public Trip(TrainConnection trainConnection) {
         this.tripId = UUID.randomUUID();
         this.trainConnection = trainConnection;
-        this.BookerName = lName;
-        this.BookerId = Pid;
-        reservations.add(new Reservation(fName,lName,age,Pid));
+
     }
 
     public void addReservation( String fname,String lname, int age, String pId)
@@ -29,13 +25,20 @@ public class Trip {
     {
         for (Reservation reservation : reservations)
         {
-            if(reservation.getPassengerId().equals(pId))
+            if(reservation.getClient().getPassengerId().equals(pId))
             {
                 throw new IllegalArgumentException();
             }
         }
     }
 
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public UUID getTripId() {
+        return tripId;
+    }
 }
 
 
