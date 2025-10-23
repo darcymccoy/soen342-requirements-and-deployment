@@ -11,7 +11,7 @@ public class Trip {
     private String BookerId;
 
 
-    public Trip(TrainConnection trainConnection,String fName,String lName, int age,String Pid) {
+    public Trip(TrainConnection trainConnection, String fName, String lName, int age, String Pid) {
         this.tripId = UUID.randomUUID();
         this.trainConnection = trainConnection;
         this.BookerName = lName;
