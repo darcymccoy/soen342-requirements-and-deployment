@@ -30,4 +30,11 @@ public class Client {
     public String getPassengerId() {
         return passengerId;
     }
+
+    @Override
+    public String toString() {
+        return "Client: " + firstname + " " + lastname
+                + " | Age: " + age
+                + " | ID: " + passengerId;
+    }
 }

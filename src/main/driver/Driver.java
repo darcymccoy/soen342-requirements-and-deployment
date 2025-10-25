@@ -3,6 +3,7 @@ package main.driver;
 import java.util.List;
 import java.util.Scanner;
 
+import main.dao.TripGetterDAO;
 import main.model.*;
 
 public class Driver {
@@ -46,7 +47,8 @@ public class Driver {
         lastName = scanner.nextLine();
         System.out.print("Enter your id: ");
         id = scanner.nextLine();
-        List<Trip> trips = TripCatalogue.findTrips(lastName, id);
+        //TODO add database pulling method here
+        List<Trip> trips = TripGetterDAO.getTrip(lastName, id);
         for (Trip trip : trips) {
             System.out.println(trip);
         }

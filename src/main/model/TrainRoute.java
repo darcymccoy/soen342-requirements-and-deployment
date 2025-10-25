@@ -8,10 +8,10 @@ public class TrainRoute {
     private String arrivalTime;
     private String trainType;
     private String daysOfOperation;
-    private String firstClassTicketRate;
-    private String secondClassTicketRate;
+    private int firstClassTicketRate;
+    private int secondClassTicketRate;
 
-    public TrainRoute(String routeID, String departureCity, String arrivalCity, String departureTime, String arrivalTime, String trainType, String daysOfOperation, String firstClassTicketRate, String secondClassTicketRate){
+    public TrainRoute(String routeID, String departureCity, String arrivalCity, String departureTime, String arrivalTime, String trainType, String daysOfOperation, int firstClassTicketRate, int secondClassTicketRate){
         this.routeID = routeID;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
@@ -51,16 +51,42 @@ public class TrainRoute {
         return daysOfOperation;
     }
 
-    public String getFirstClassTicketRate() {
+    public int getFirstClassTicketRate() {
         return firstClassTicketRate;
     }
 
-    public String getSecondClassTicketRate() {
+    public int getSecondClassTicketRate() {
         return secondClassTicketRate;
     }
 
     @Override
-    public String toString(){
-        return "Route ID: " + SimpleXorObfuscator.encodeNumber(Integer.parseInt(getRouteID().substring(1))) + " | Departure City: " + getDepartureCity() + " | Arrival City: " + getArrivalCity() + " | Departure Time: " + getDepartureTime() + " | Arrival Time: " + getArrivalTime() + " | Train Type: " + getTrainType() + " | Days of operation: " + getDaysOfOperation() + " | First class ticket rate: " + getFirstClassTicketRate() + " | Second class ticket rate: " + getSecondClassTicketRate();
+    public String toString() {
+        String safeRouteId = "(no ID)";
+        try {
+            String id = getRouteID();
+            if (id != null && id.length() > 1) {
+                safeRouteId = String.valueOf(SimpleXorObfuscator.encodeNumber(
+                        Integer.parseInt(id.substring(1))
+                ));
+            }
+        } catch (Exception e) {
+            // Defensive: prevents crash if parsing or encoding fails
+            safeRouteId = "(invalid ID)";
+        }
+
+        return "Route ID: " + safeRouteId
+                + " | Departure City: " + safe(getDepartureCity())
+                + " | Arrival City: " + safe(getArrivalCity())
+                + " | Departure Time: " + safe(getDepartureTime())
+                + " | Arrival Time: " + safe(getArrivalTime())
+                + " | Train Type: " + safe(getTrainType())
+                + " | Days of operation: " + safe(getDaysOfOperation())
+                + " | First class ticket rate: " + getFirstClassTicketRate()
+                + " | Second class ticket rate: " + getSecondClassTicketRate();
+    }
+
+    // Helper method to safely handle null strings
+    private String safe(String value) {
+        return value != null ? value : "(unknown)";
     }
 }

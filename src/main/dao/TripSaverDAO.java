@@ -21,16 +21,6 @@ public class TripSaverDAO {
     private static final String TRIP_RESERVATIONS = "trip_reservations";
     private static final String TRIPS = "trips";
 
-    /*
-    try (Connection conn = DBHelper.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)){
-
-            statement.executeUpdate();
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-     */
 
 
     public static void parseTripInformation(Trip trip){
@@ -43,9 +33,9 @@ public class TripSaverDAO {
         saveTripConnectionRel(trip_id, connection);
         for(Reservation r : reservationList){
             addReservation(r);
+            addClient(r.getClient());
             saveTripReservationRel(trip_id, r);
             saveClientReservationRel(r);
-            addClient(r.getClient());
         }
         System.out.println("Save complete!");
 
@@ -179,16 +169,15 @@ public class TripSaverDAO {
 
             ResultSet rs = statement.executeQuery();
             if(!rs.next()){
-                System.out.println("Client doesnt exist");
+
                 return false;
             }
-            System.out.println("Client does exist");
+
             return true;
 
         }catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Im outta here!");
 
         return true;
     }
