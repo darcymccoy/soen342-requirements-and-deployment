@@ -3,11 +3,11 @@ package main.driver;
 import java.util.List;
 import java.util.Scanner;
 
-import main.system.*;
+import main.model.*;
 
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
-    private static String[] paramArr = {null,null,null,null,null,null};
+
     public static void main(String[] args) {
         displayMainMenu();
 
@@ -53,6 +53,9 @@ public class Driver {
     }
 
     private static void displayConnectionsMenu() {
+        FilterCriteria filterCriteria = new FilterCriteria();
+
+
         while (true) {
             String startCity = "";
             String endCity = "";
@@ -63,22 +66,18 @@ public class Driver {
                 endCity = scanner.nextLine();
 
                 String choiceParameter = "";
-                while(!choiceParameter.equalsIgnoreCase("no")){
-                    choiceParameter = displayParameterOptions("");
-                    if(choiceParameter.equalsIgnoreCase("no")){
-                        break;
-                    }
-                    else if (choiceParameter.equals("-1")){
-                        continue;
-                    }
-
+                while (!choiceParameter.equalsIgnoreCase("no")) {
+                    choiceParameter = displayParameterOptions(filterCriteria);
+                    if (choiceParameter.equalsIgnoreCase("no")) break;
+                    else if (choiceParameter.equals("-1")) continue;
                 }
 
-                ConnectionsCatalogue connections = new ConnectionsCatalogue(startCity, endCity, paramArr);
+                ConnectionsCatalogue connections = new ConnectionsCatalogue(startCity, endCity, filterCriteria);
                 System.out.println(connections);
                 displayRouteOptionsMenu(connections);
-                System.out.print("\nEnter the corresponding route number to choose your connection: ");
+                System.out.print("\nEnter the corresponding option to choose your connection: ");
                 int connectionIndex = Integer.parseInt(scanner.nextLine());
+                System.out.println(connectionIndex);
                 bookTripMenu(connections.getTrainConnection(connectionIndex - 1));
             } catch (NoRouteException e) {
                 System.out.print("\nThere are no connections between these 2 cities (with maximum 2 stops)");
@@ -105,7 +104,7 @@ public class Driver {
         String passengerID = scanner.nextLine();
         Trip trip = new Trip(connection);
         trip.addReservation(firstName, lastName, age, passengerID);
-        while(true) {
+        while (true) {
             try {
                 System.out.print("""
                         \n1. Continue.
@@ -130,103 +129,104 @@ public class Driver {
             }
         }
         TripCatalogue.addTrip(trip);
+
     }
 
-    private static String displayParameterOptions(String choice){
-        try{
+    private static String displayParameterOptions(FilterCriteria filters) throws NumberFormatException {
+        try {
             System.out.println("Are there any parameters you would like to specify in the following list? \n(Type NO or type a number from the list)");
             System.out.println("""
-            1. Departure Time
-            2. Arrival Time
-            3. Train Type
-            4. Days of Operation
-            5. First class ticket rate
-            6. Second class ticket rate
-            """);
-            choice = scanner.nextLine();
-            if(choice.equalsIgnoreCase("no"))
+                    1. Departure Time
+                    2. Arrival Time
+                    3. Train Type
+                    4. Days of Operation
+                    5. First class ticket rate
+                    6. Second class ticket rate
+                    """);
+            String choice = scanner.nextLine();
+            if (choice.equalsIgnoreCase("no"))
                 return "no";
             int paramChoice = Integer.parseInt(choice);
-            if(paramChoice > 6 || paramChoice < 0){
+            if (paramChoice > 6 || paramChoice < 0) {
                 throw new NumberFormatException(choice);
             }
-            while(true){
-                String time;
-                String regex = "^\\d{2}:\\d{2}$";
-                switch(paramChoice){
-                    case 1:
-                        System.out.println("Please type in a time you would like the train to leave at (in 24hr time following format 00:00):");
-                        time = scanner.nextLine();
-                        if(time.equalsIgnoreCase("back"))
-                            return "-1";
-                        if (!time.matches(regex)){
-                            System.out.println("Time entered not valid, please try again or type BACK to go back.");
-                            break;
-                        }
-                        paramArr[0] = time;
-                        return "";
-                    case 2:
-                        System.out.println("Please type in a time you would like the train to arrive at (in 24hr time following format 00:00):");
-                        time = scanner.nextLine();
-                        if(time.equalsIgnoreCase("back"))
-                            return "-1";
-                        if (!time.matches(regex)){
-                            System.out.println("Time entered not valid, please try again or type BACK to go back.");
-                            break;
-                        }
-                        paramArr[1] = time;
-                        return time;
-                    case 3:
-                        System.out.println("Please select a train type from the following list:");
-                        System.out.println("""
-                                RJX
-                                ICE
-                                InterCity
-                                Frecciarossa
-                                RegioExpress
-                                EuroCity
-                                TGV
-                                Italo
-                                RE
-                                Nightjet
-                                Intercit?s
-                                Thalys
-                                Eurostar
-                                TER
-                                IC
-                                AVE
-                                Railijet
-                                """);
-                        paramArr[2] = scanner.nextLine();
-                        return "";
-                    case 4:
-                        System.out.println("Please select days of operation from the following list:");
-                        System.out.println("""
-                                Fri-Sun
-                                Daily
-                                Mon,Wed,Fri
-                                Tue,Thu
-                                Sat-Sun
-                                Mon-Fri
-                                """);
-                        paramArr[3] = scanner.nextLine();
-                        return "";
-                    case 5:
-                        System.out.println("Please type a rate you would like for First Class Tickets");
-                        paramArr[4] = scanner.nextLine();
-                        return "";
-                    case 6:
-                        System.out.println("Please type a rate you would like for Second Class Tickets");
-                        paramArr[5] = scanner.nextLine();
-                        return "";
-
+            String time;
+            String regex = "^\\d{2}:\\d{2}$";
+            switch (paramChoice) {
+                case 1 -> {
+                    System.out.print("Enter departure time (HH:MM): ");
+                    time = scanner.nextLine();
+                    if (time.equalsIgnoreCase("back"))
+                        return "-1";
+                    if (!time.matches(regex)) {
+                        System.out.println("Time entered not valid, please try again or type BACK to go back.");
+                        break;
+                    }
+                    filters.addFilter("`departure_time`", time);
+                }
+                case 2 -> {
+                    System.out.print("Enter arrival time (HH:MM): ");
+                    time = scanner.nextLine();
+                    if (time.equalsIgnoreCase("back"))
+                        return "-1";
+                    if (!time.matches(regex)) {
+                        System.out.println("Time entered not valid, please try again or type BACK to go back.");
+                        break;
+                    }
+                    filters.addFilter("`arrival_time`", time);
+                }
+                case 3 -> {
+                    System.out.println("Please select a train type from the following list:");
+                    System.out.println("""
+                            RJX
+                            ICE
+                            InterCity
+                            Frecciarossa
+                            RegioExpress
+                            EuroCity
+                            TGV
+                            Italo
+                            RE
+                            Nightjet
+                            Intercit?s
+                            Thalys
+                            Eurostar
+                            TER
+                            IC
+                            AVE
+                            Railjet
+                            """);
+                    String choi = scanner.nextLine();
+                    filters.addFilter("`train_type`", choi);
+                }
+                case 4 -> {
+                    System.out.println("Please select days of operation from the following list:");
+                    System.out.println("""
+                            Fri-Sun
+                            Daily
+                            Mon,Wed,Fri
+                            Tue,Thu
+                            Sat-Sun
+                            Mon-Fri
+                            """);
+                    filters.addFilter("`days_of_operation`", scanner.nextLine());
+                }
+                case 5 -> {
+                    System.out.println("Please type a rate you would like for First Class Tickets");
+                    filters.addFilter("`first_class_ticket_rate`", scanner.nextLine());
+                }
+                case 6 -> {
+                    System.out.println("Please type a rate you would like for Second Class Tickets");
+                    filters.addFilter("`second_class_ticket_rate`", scanner.nextLine());
                 }
             }
 
-        } catch (NumberFormatException nfe){
+
+        } catch (NumberFormatException nfe) {
             System.out.println("The input was not as expected! Please try again");
             return "-1";
         }
+        return "";
     }
 
     private static void displayRouteOptionsMenu(ConnectionsCatalogue connectionsCatalogue) {
@@ -239,7 +239,6 @@ public class Driver {
                         "Enter an integer to choose from the above options: ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 1) {
-                    paramArr = new String[]{null,null,null,null,null,null};
                     return;
                 } else if (choice == 2) {
                     connectionsCatalogue.sortByDuration();

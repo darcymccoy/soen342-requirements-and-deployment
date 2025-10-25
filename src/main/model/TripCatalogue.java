@@ -1,4 +1,6 @@
-package main.system;
+package main.model;
+
+import main.dao.TripSaverDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,9 @@ public class TripCatalogue {
 
     public static void addTrip(Trip trip) {
         trips.add(trip);
+        // Here is where SQL will intersept the trip info and parse it
+        TripSaverDAO.parseTripInformation(trip);
+
     }
 
 }

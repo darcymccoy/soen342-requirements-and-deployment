@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class NoRouteException extends Exception {
     public NoRouteException() {

@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +38,10 @@ public class Trip {
 
     public UUID getTripId() {
         return tripId;
+    }
+
+    public TrainConnection getTrainConnection(){
+        return this.trainConnection;
     }
 }
 

@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class TrainRoute {
     private String routeID;
@@ -61,6 +61,6 @@ public class TrainRoute {
 
     @Override
     public String toString(){
-        return "Route ID: " + getRouteID() + " | Departure City: " + getDepartureCity() + " | Arrival City: " + getArrivalCity() + " | Departure Time: " + getDepartureTime() + " | Arrival Time: " + getArrivalTime() + " | Train Type: " + getTrainType() + " | Days of operation: " + getDaysOfOperation() + " | First class ticket rate: " + getFirstClassTicketRate() + " | Second class ticket rate: " + getSecondClassTicketRate();
+        return "Route ID: " + SimpleXorObfuscator.encodeNumber(Integer.parseInt(getRouteID().substring(1))) + " | Departure City: " + getDepartureCity() + " | Arrival City: " + getArrivalCity() + " | Departure Time: " + getDepartureTime() + " | Arrival Time: " + getArrivalTime() + " | Train Type: " + getTrainType() + " | Days of operation: " + getDaysOfOperation() + " | First class ticket rate: " + getFirstClassTicketRate() + " | Second class ticket rate: " + getSecondClassTicketRate();
     }
 }

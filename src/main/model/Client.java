@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class Client {
 
@@ -13,6 +13,14 @@ public class Client {
         this.lastname = lastname;
         this.age = age;
         this.passengerId = passengerId;
+    }
+
+    public String getFirstname(){
+        return this.firstname;
+    }
+
+    public int getAge(){
+        return this.age;
     }
 
     public String getLastname() {

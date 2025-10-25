@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class TrainConnection {
     private TrainRoute route1;
