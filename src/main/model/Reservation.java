@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class Reservation {
 
@@ -13,5 +13,8 @@ public class Reservation {
 
     public Client getClient() {
         return client;
+    }
+    public Ticket getTicket(){
+        return ticket;
     }
 }

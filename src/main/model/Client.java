@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class Client {
 
@@ -15,11 +15,26 @@ public class Client {
         this.passengerId = passengerId;
     }
 
+    public String getFirstname(){
+        return this.firstname;
+    }
+
+    public int getAge(){
+        return this.age;
+    }
+
     public String getLastname() {
         return lastname;
     }
 
     public String getPassengerId() {
         return passengerId;
+    }
+
+    @Override
+    public String toString() {
+        return "Client: " + firstname + " " + lastname
+                + " | Age: " + age
+                + " | ID: " + passengerId;
     }
 }

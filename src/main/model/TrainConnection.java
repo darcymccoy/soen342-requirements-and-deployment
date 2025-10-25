@@ -1,4 +1,4 @@
-package main.system;
+package main.model;
 
 public class TrainConnection {
     private TrainRoute route1;
@@ -16,6 +16,12 @@ public class TrainConnection {
         this.route1 = route1;
         this.route2 = route2;
         this.duration = duration;
+    }
+    public TrainConnection(TrainRoute route1, TrainRoute route2, TrainRoute route3) {
+        this.route1 = route1;
+        this.route2 = route2;
+        this.route3 = route3;
+        this.duration = -1;
     }
 
     public TrainConnection(TrainRoute route1, TrainRoute route2, TrainRoute route3, long duration) {
@@ -59,24 +65,24 @@ public class TrainConnection {
 
     public int getSecondCLassRate() {
         int totalSecondRate = 0;
-        totalSecondRate += Integer.parseInt(route1.getSecondClassTicketRate());
+        totalSecondRate += route1.getSecondClassTicketRate();
         if (route2 != null) {
-            totalSecondRate += Integer.parseInt(route2.getSecondClassTicketRate());
+            totalSecondRate += route2.getSecondClassTicketRate();
         }
         if (route3 != null) {
-            totalSecondRate += Integer.parseInt(route3.getSecondClassTicketRate());
+            totalSecondRate += route3.getSecondClassTicketRate();
         }
         return totalSecondRate;
     }
 
     public int getFirstCLassRate() {
         int totalFirstRate = 0;
-        totalFirstRate += Integer.parseInt(route1.getFirstClassTicketRate());
+        totalFirstRate += route1.getFirstClassTicketRate();
         if (route2 != null) {
-            totalFirstRate += Integer.parseInt(route2.getFirstClassTicketRate());
+            totalFirstRate += route2.getFirstClassTicketRate();
         }
         if (route3 != null) {
-            totalFirstRate += Integer.parseInt(route3.getFirstClassTicketRate());
+            totalFirstRate += route3.getFirstClassTicketRate();
         }
         return totalFirstRate;
     }

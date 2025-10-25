@@ -1,5 +1,8 @@
-package main.system;
+package main.model;
 
+import main.dao.TrainRouteDAO;
+
+import javax.xml.transform.Source;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -14,15 +17,18 @@ public class ConnectionsCatalogue {
     private String startCity;
     private String endCity;
     private List<TrainRoute> routes = new ArrayList<TrainRoute>();
-    private DatabaseReader reader = new DatabaseReader();
+    //private DatabaseReader reader = new DatabaseReader();
+    TrainRouteDAO routeDAO = new TrainRouteDAO();
     private List<TrainConnection> catalogue = new ArrayList<>();
+    FilterCriteria filterCriteria;
 
 
-    public ConnectionsCatalogue(String startCity, String endCity, String[] arr) throws NoRouteException {
+    public ConnectionsCatalogue(String startCity, String endCity, FilterCriteria filterCriteria) throws NoRouteException {
         this.startCity = startCity;
         this.endCity = endCity;
+        this.filterCriteria = filterCriteria;
         int bothCitiesValid = 0;
-        ArrayList<String> cities = reader.listAllCities();
+        ArrayList<String> cities = routeDAO.listAllCities();
         for (String city : cities) {
             if (city.equals(startCity) || city.equals(endCity)) {
                 bothCitiesValid += 1;
@@ -37,44 +43,15 @@ public class ConnectionsCatalogue {
             throw e;
         }
         else{
-
-
-            buildRoute(arr);
+            buildRoute();
         }
 
     }
 
 
-    public void buildRoute(String[] arr) throws NoRouteException {
-        reader.resetArrs();
-        for(int i = 0; i < 6; i++){
-            if(arr[i] != null){
-                switch(i){
-                    case 0:
-                        reader.filterByDepTime(arr[i]);
-                        break;
-                    case 1:
-                        reader.filterByArrTime(arr[i]);
-                        break;
-                    case 2:
-                        reader.filterByTrainType(arr[i]);
-                        break;
-                    case 3:
-                        reader.filterByDOO(arr[i]);
-                        break;
-                    case 4:
-                        reader.filterByFirstClass(arr[i]);
-                        break;
-                    case 5:
-                        reader.filterBySecondClass(arr[i]);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        routes = reader.findDepartureArrivalPair(startCity, endCity);
-        reader.resetArrs();
+    public void buildRoute() throws NoRouteException {
+        TrainRouteDAO routeDAO = new TrainRouteDAO();
+        routes = routeDAO.findDepartureArrivalPair(startCity, endCity, filterCriteria.getFilters());
         if (!routes.isEmpty()) {
             for (TrainRoute route : routes) {
                 LocalTime t1 = LocalTime.parse(route.getDepartureTime(), FMT);
@@ -114,10 +91,10 @@ public class ConnectionsCatalogue {
     private List<TrainRoute[]> findConnections() {
 
         List<TrainRoute[]> connections = new ArrayList<TrainRoute[]>();
-        List<TrainRoute> routePart1 = reader.findDepartures(startCity);
+        List<TrainRoute> routePart1 = routeDAO.findDepartures(startCity);
         for (int i = 0; i < routePart1.size(); i++) {
 
-            List<TrainRoute> routePart2temp = reader.findDepartureArrivalPair(routePart1.get(i).getArrivalCity(), endCity);
+            List<TrainRoute> routePart2temp = routeDAO.findDepartureArrivalPair(routePart1.get(i).getArrivalCity(), endCity, filterCriteria.getFilters());
             for (int j = 0; j < routePart2temp.size(); j++) {
                 TrainRoute[] temp = {routePart1.get(i), routePart2temp.get(j)};
                 connections.add(temp);
@@ -160,13 +137,13 @@ public class ConnectionsCatalogue {
 
     private boolean findConnections2() {
         boolean valid  = false;
-        List<TrainRoute> routePart1 = reader.findDepartures(startCity);
-        List<TrainRoute> routePart2 = reader.findArrivals(endCity);
+        List<TrainRoute> routePart1 = routeDAO.findDepartures(startCity);
+        List<TrainRoute> routePart2 = routeDAO.findArrivals(endCity);
 
         for (TrainRoute routeStart : routePart1) {
             String city = routeStart.getArrivalCity();
             for (TrainRoute routeEnd : routePart2) {
-                List<TrainRoute> temp = reader.findDepartureArrivalPair(city, routeEnd.getDepartureCity());
+                List<TrainRoute> temp = routeDAO.findDepartureArrivalPair(city, routeEnd.getDepartureCity(), filterCriteria.getFilters());
 
                 for (TrainRoute route : temp) {
 
@@ -174,7 +151,6 @@ public class ConnectionsCatalogue {
                         if (dayOperation(routeStart.getDaysOfOperation(), route.getDaysOfOperation()) && dayOperation(route.getDaysOfOperation(), routeEnd.getDaysOfOperation())) {
                             valid = true;
                             catalogue.add(new TrainConnection(routeStart, route, routeEnd, timeOperation(routeStart, route) + timeOperation(route, routeEnd)));
-
                         }
                     }
                 }
