@@ -9,7 +9,7 @@
 ## Getting Started
 
 ### Setup the Database
-Link up the database file from the data base folder to the IDE's database function and Voila!
+Link up the database (SQLite DB) file from the database folder to the IDE's database function and Voila!
 
 ### Run the Code
 
