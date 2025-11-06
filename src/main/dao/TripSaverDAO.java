@@ -15,7 +15,6 @@ public class TripSaverDAO {
     // Database table names
     private static final String CLIENT_RESERVATIONS = "client_reservations";
     private static final String CLIENTS = "clients";
-    private static final String CONNECTIONS = "connections";
     private static final String RESERVATIONS = "reservations";
     private static final String TRIP_CONNECTIONS = "trip_connections";
     private static final String TRIP_RESERVATIONS = "trip_reservations";
@@ -25,7 +24,7 @@ public class TripSaverDAO {
 
     public static void parseTripInformation(Trip trip){
         System.out.println("Saving to database... this will only take a moment! :)");
-        UUID trip_id = trip.getTripId();
+        long trip_id = trip.getTripId();
         TrainConnection connection = trip.getTrainConnection();
         List<Reservation> reservationList = trip.getReservations();
 
@@ -42,13 +41,13 @@ public class TripSaverDAO {
     }
 
     // Trip saving method
-    public static void addTrip(UUID trip_id){
+    public static void addTrip(long trip_id){
         String sql = String.format("""
                 INSERT INTO %s VALUES(?);""",TRIPS);
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)){
 
-            statement.setString(1, trip_id.toString());
+            statement.setString(1, ""+trip_id);
 
             statement.executeUpdate();
 
@@ -58,7 +57,7 @@ public class TripSaverDAO {
     }
 
     // Trip-Connection relation saving method
-    public static void saveTripConnectionRel(UUID trip_id, TrainConnection connection){
+    public static void saveTripConnectionRel(long trip_id, TrainConnection connection){
         String sql = String.format("""
                 INSERT INTO %s VALUES(?,?,?,?);""", TRIP_CONNECTIONS);
         String route1_id = connection.getRoute1().getRouteID();
@@ -77,7 +76,7 @@ public class TripSaverDAO {
 
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)){
-            statement.setString(1, trip_id.toString());
+            statement.setString(1, "" + trip_id);
             statement.setString(2, route1_id);
             statement.setString(3, route2_id);
             statement.setString(4, route3_id);
@@ -103,12 +102,12 @@ public class TripSaverDAO {
     }
 
     // Trip-Reservation relation saving method
-    public static void saveTripReservationRel(UUID trip_id, Reservation reservation){
+    public static void saveTripReservationRel(long trip_id, Reservation reservation){
         String sql = String.format("""
                 INSERT INTO %s VALUES(?,?);""",TRIP_RESERVATIONS);
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)){
-            statement.setString(1, trip_id.toString());
+            statement.setString(1, "" + trip_id);
             statement.setLong(2, reservation.getTicket().getId());
             statement.executeUpdate();
         }catch (SQLException e) {
@@ -181,8 +180,5 @@ public class TripSaverDAO {
 
         return true;
     }
-
-
-
 
 }

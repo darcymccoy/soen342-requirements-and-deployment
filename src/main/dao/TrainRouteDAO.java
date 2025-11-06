@@ -50,7 +50,6 @@ public class TrainRouteDAO {
     }
 
     // Public DAO methods
-
     public List<TrainRoute> findArrivals(String city) {
         Map<String, Object> filters = new HashMap<>();
         filters.put("`arrival_city`", city);

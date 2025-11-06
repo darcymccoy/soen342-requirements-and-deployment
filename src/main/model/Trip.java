@@ -1,21 +1,23 @@
 package main.model;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Trip {
-    private UUID tripId;
+    private long tripId;
     private List<Reservation>  reservations = new ArrayList<Reservation>();
     private TrainConnection trainConnection;
 
 
     public Trip(TrainConnection trainConnection) {
-        this.tripId = UUID.randomUUID();
+        long timePart = System.currentTimeMillis();
+        int randomPart = ThreadLocalRandom.current().nextInt(1000,9999);
+        this.tripId = timePart + randomPart;
         this.trainConnection = trainConnection;
 
     }
 
-    public Trip(UUID tripId, List<Reservation> reservations, TrainConnection trainConnection){
+    public Trip(long tripId, List<Reservation> reservations, TrainConnection trainConnection){
         this.tripId = tripId;
         this.reservations = reservations;
         this.trainConnection = trainConnection;
@@ -42,7 +44,7 @@ public class Trip {
         return reservations;
     }
 
-    public UUID getTripId() {
+    public long getTripId() {
         return tripId;
     }
 

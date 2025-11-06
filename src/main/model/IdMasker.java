@@ -3,7 +3,7 @@ package main.model;
 import java.nio.ByteBuffer;
 import java.util.Base64;
 
-public class SimpleXorObfuscator {
+public class IdMasker {
     // Provide a 32-bit mask as hex in env var NUM_MASK, e.g. "0x1a2b3c4d"
     private static final int MASK = loadMask();
 
@@ -26,23 +26,4 @@ public class SimpleXorObfuscator {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bb.array());
     }
 
-    // Decode Base64 string -> original integer
-    public static int decodeNumber(String token) {
-        byte[] bytes = Base64.getUrlDecoder().decode(token);
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        int obf = bb.getInt();
-        return obf ^ MASK;                        // reverse XOR
-    }
-
-    // quick demo
-    /*public static void main(String[] args) {
-        int original = 12345;                 // 5-digit example
-        String token = encodeNumber(original);
-        int recovered = decodeNumber(token);
-
-        System.out.println("Mask (hex)   : 0x" + Integer.toHexString(MASK));
-        System.out.println("Original     : " + original);
-        System.out.println("Obfuscated   : " + token);
-        System.out.println("Recovered    : " + recovered);
-    }*/
 }

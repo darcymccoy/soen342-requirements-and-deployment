@@ -28,7 +28,7 @@ public class TripCatalogue {
 
     public static void addTrip(Trip trip) {
         trips.add(trip);
-        // Here is where SQL will intersept the trip info and parse it
+        // Here is where SQL will intercept the trip info and parse it
         TripSaverDAO.parseTripInformation(trip);
 
     }
