@@ -47,7 +47,6 @@ public class Driver {
         lastName = scanner.nextLine();
         System.out.print("Enter your id: ");
         id = scanner.nextLine();
-        //TODO add database pulling method here
         List<Trip> trips = TripGetterDAO.getTrip(lastName, id);
         for (Trip trip : trips) {
             System.out.println(trip);

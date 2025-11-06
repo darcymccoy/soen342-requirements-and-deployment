@@ -17,7 +17,6 @@ public class ConnectionsCatalogue {
     private String startCity;
     private String endCity;
     private List<TrainRoute> routes = new ArrayList<TrainRoute>();
-    //private DatabaseReader reader = new DatabaseReader();
     TrainRouteDAO routeDAO = new TrainRouteDAO();
     private List<TrainConnection> catalogue = new ArrayList<>();
     FilterCriteria filterCriteria;
@@ -50,7 +49,6 @@ public class ConnectionsCatalogue {
 
 
     public void buildRoute() throws NoRouteException {
-        TrainRouteDAO routeDAO = new TrainRouteDAO();
         routes = routeDAO.findDepartureArrivalPair(startCity, endCity, filterCriteria.getFilters());
         if (!routes.isEmpty()) {
             for (TrainRoute route : routes) {

@@ -15,13 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class TripGetterDAO {
-    private static final String CLIENT_RESERVATIONS = "client_reservations";
-    private static final String CLIENTS = "clients";
-    private static final String CONNECTIONS = "connections";
-    private static final String RESERVATIONS = "reservations";
-    private static final String TRIP_CONNECTIONS = "trip_connections";
-    private static final String TRIP_RESERVATIONS = "trip_reservations";
-    private static final String TRIPS = "trips";
 
     public static List<Trip> getTrip(String last_name, String client_id) {
         List<Trip> trips = new ArrayList<Trip>();
@@ -92,11 +85,11 @@ public class TripGetterDAO {
 
             while (rs.next()) {
                 String tripIdStr = rs.getString("trip_id");
-                UUID tripId = tripIdStr != null ? UUID.fromString(tripIdStr) : null;
+                long tripId = tripIdStr != null ? Long.parseLong(tripIdStr) : null;
 
                 // Check if this trip already exists in the list
                 Trip existingTrip = trips.stream()
-                        .filter(t -> t.getTripId().equals(tripId))
+                        .filter(t -> t.getTripId() == tripId)
                         .findFirst()
                         .orElse(null);
 

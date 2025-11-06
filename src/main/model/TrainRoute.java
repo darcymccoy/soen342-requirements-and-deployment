@@ -65,7 +65,7 @@ public class TrainRoute {
         try {
             String id = getRouteID();
             if (id != null && id.length() > 1) {
-                safeRouteId = String.valueOf(SimpleXorObfuscator.encodeNumber(
+                safeRouteId = String.valueOf(IdMasker.encodeNumber(
                         Integer.parseInt(id.substring(1))
                 ));
             }
