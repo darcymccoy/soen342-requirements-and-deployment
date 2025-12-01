@@ -9,6 +9,27 @@ import main.model.*;
 public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
 
+
+        public enum UserChoiceSort
+        {
+            EXIT(1),
+            DURATION(2),
+            SECOND_RATE(3),
+            FIRST_RATE(4);
+
+            private int value;
+            UserChoiceSort(int value){
+                this.value = value;
+            }
+
+            public int getValue(){
+                return value;
+
+            }
+
+            }
+
+
     public static void main(String[] args) {
         displayMainMenu();
 
@@ -231,6 +252,8 @@ public class Driver {
     }
 
     private static void displayRouteOptionsMenu(ConnectionsCatalogue connectionsCatalogue) {
+
+
         while (true) {
             try {
                 System.out.print("1. Exit this menu to select a connection.\n" +
@@ -239,15 +262,15 @@ public class Driver {
                         "4. Sort by first class rate.\n" +
                         "Enter an integer to choose from the above options: ");
                 int choice = Integer.parseInt(scanner.nextLine());
-                if (choice == 1) {
+                if (choice == UserChoiceSort.EXIT.getValue()) {
                     return;
-                } else if (choice == 2) {
+                } else if (choice == UserChoiceSort.DURATION.getValue()) {
                     connectionsCatalogue.sortByDuration();
                     System.out.println(connectionsCatalogue);
-                } else if (choice == 3) {
+                } else if (choice == UserChoiceSort.SECOND_RATE.getValue()) {
                     connectionsCatalogue.sortBySecondClassRate();
                     System.out.println(connectionsCatalogue);
-                } else if (choice == 4) {
+                } else if (choice == UserChoiceSort.FIRST_RATE.getValue()) {
                     connectionsCatalogue.sortByFirstClassRate();
                     System.out.println(connectionsCatalogue);
                 } else {
