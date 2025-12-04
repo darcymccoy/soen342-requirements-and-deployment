@@ -14,3 +14,8 @@ Link up the database (SQLite DB) file from the database folder to the IDE's data
 ### Run the Code
 
 1. Run the [Driver.java](src/main/driver/Driver.java) file to run the program.
+
+
+### Demo Video
+Here is the link to the demo video: https://www.youtube.com/watch?v=aTxER9G2zYk \
+If this does not work go to the youtube chanel "maelle fb" the video is called "Demo Video soen 342"
