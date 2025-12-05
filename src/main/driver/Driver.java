@@ -10,6 +10,24 @@ public class Driver {
     private static final Scanner scanner = new Scanner(System.in);
 
 
+    // Enum to get rid of magic numbers
+    public enum UserChoice{
+        EXIT_PROGRAM(1),
+        BOOK_TRIP(2),
+        VIEW_TRIPS(3);
+
+        private int value;
+
+        UserChoice(int value){
+            this.value = value;
+        }
+
+        public int getValue(){
+            return value;
+        }
+    }
+
+
         public enum UserChoiceSort
         {
             EXIT(1),
@@ -30,6 +48,7 @@ public class Driver {
             }
 
 
+
     public static void main(String[] args) {
         displayMainMenu();
 
@@ -46,11 +65,11 @@ public class Driver {
                         3. View Trips.
                         Enter an integer to choose from the above options:\s""");
                 int choice = Integer.parseInt(scanner.nextLine());
-                if (choice == 1) {
+                if (choice == UserChoice.EXIT_PROGRAM.getValue()) {
                     return;
-                } else if (choice == 2) {
+                } else if (choice == UserChoice.BOOK_TRIP.getValue()) {
                     displayConnectionsMenu();
-                } else if (choice == 3) {
+                } else if (choice == UserChoice.VIEW_TRIPS.getValue() ) {
                     displayTripsMenu();
                 } else {
                     System.out.println("\nThis wasn't one of the integer choices. Try again.");
@@ -76,7 +95,6 @@ public class Driver {
 
     private static void displayConnectionsMenu() {
         FilterCriteria filterCriteria = new FilterCriteria();
-
 
         while (true) {
             String startCity = "";
